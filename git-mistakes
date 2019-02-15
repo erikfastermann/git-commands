@@ -1,0 +1,68 @@
+# Fixing mistakes when using Git
+
+# Force push when you changed the history
+# WARNING: Use with caution
+git push -f REMOTE_NAME REMOTE_BRANCH
+
+# After force pushing when someone else already pulled the earlier changes:
+# The other person has to:
+# Option 1:
+git pull
+# This will result in potential merge conflict
+# When resolved you can push your changes or commit further
+# Option 2:
+git reset REMOTE_NAME/REMOTE_BRANCH
+# You will loose commits you made in between
+# But you don't have to resolve a merge conflict
+
+# Change the commit message from the last commit
+# and add stuff you forgot (using git add before amending)
+# WARNING: Changes history
+git commit --amend
+
+# Reset to a previous commit but keep changes staged
+# NOTE: Get commit hash with git log or use HEAD^
+# WARNING: 'git reset' changes the history
+git reset --soft PREV_COMMIT_HASH
+
+# Reset to a previous commit and keep changes unstaged
+git reset PREV_COMMIT_HASH
+
+# Reset to a previous commit and remove changes from working tree
+# NOTE: Doesn't remove untracked files
+# WARNING: You will permanently loose uncommited changes
+git reset --hard PREV_COMMIT_HASH
+
+# Remove untracked files/directories
+git clean -df
+
+# Remove uncommited changes for a file
+# WARNING: You will permanently loose uncommited changes
+git checkout SOME_FILE
+
+# Remove current changes for all tracked files
+# WARNING: You will permanently loose uncommited changes
+git reset --hard
+
+# Commited on wrong branch
+git reset PREV_COMMIT_HASH
+git checkout CORRECT_BRANCH
+git add -A # or to split the commits git add -p
+git commit
+
+# Return to a prevoius point/commit after messing up the history
+# e.g. after a mistake with git reset --hard
+git reflog
+# NOTE: Git sometimes performs garabge collection
+# If the changes are to old you might be out of luck
+git checkout SOME_COMMIT_HASH_FROM_REF_LOG
+git branch RESTORE_BRANCH
+git checkout PREV_BRANCH
+# Then you can e.g. merge with the RESTORE_BRANCH and delete it
+
+# Reset initial commit (will stage your changes)
+git update-ref -d HEAD
+
+# For extensive history editing:
+git rebase -i PREV_COMMIT_HASH
+# More information: https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
