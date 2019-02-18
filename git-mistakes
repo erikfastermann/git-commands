@@ -1,5 +1,10 @@
 # Fixing mistakes when using Git
 
+# Forgot to pull and already commited new changes
+git pull --rebase
+# This will stack your new commits on top of the remote commits
+# Results in a potential merge conflict, but you don't have to force push
+
 # Force push when you changed the history
 # WARNING: Use with caution
 git push -f REMOTE_NAME REMOTE_BRANCH
@@ -12,7 +17,7 @@ git pull
 # When resolved you can push your changes or commit further
 # Option 2:
 git reset REMOTE_NAME/REMOTE_BRANCH
-# You will loose commits you made in between
+# You will loose commits (but not the changes) you made in between
 # But you don't have to resolve a merge conflict
 
 # Change the commit message from the last commit
