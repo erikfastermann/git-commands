@@ -1,3 +1,6 @@
 # Dump a file from an other branch or previous commit in your working tree
 # WARNING: You will loose all not commited progress for this file
 git checkout BRANCH_OR_COMMIT_HASH -- SOME_FILE
+
+# Branch from anywhere
+git branch BRANCH COMMIT_HASH
