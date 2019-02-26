@@ -1,6 +1,51 @@
 # Dump a file from an other branch or previous commit in your working tree
 # WARNING: You will loose all not commited progress for this file
-git checkout BRANCH_OR_COMMIT_HASH -- SOME_FILE
+# Use git --work-tree /SOME/PATH/ to dump somewhere else
+git checkout COMMIT-ISH (-- /PATH/TO/FILE)
 
 # Branch from anywhere
-git branch BRANCH COMMIT_HASH
+git branch BRANCH COMMIT-ISH
+
+# Number of commits
+git rev-list --count (COMMIT-ISH or --all)
+
+# All objects in repo, filter: e.g.: 'grep commit'
+git rev-list --objects --all | cut -c1-40 | git cat-file --batch-check
+
+# Top-level dir in repo (where .git folder lives)
+git rev-parse --show-toplevel
+
+# Better Git diff with additional info for past commit
+git log --stat -p COMMIT-ISH^..COMMIT-ISH (-- /PATH/TO/FILE)
+
+# Get previous active branch (like cd -)
+git checkout -
+
+# Delete remote branch
+git push REMOTE :OLD_BRANCH
+
+# Commit with plumbing commands
+cd GIT_REPO_PLUMBING/
+git init
+echo "Hello world" | git hash-object -w --stdin | xargs -i git update-index --add --cacheinfo 100644 {} hello-world
+git write-tree | xargs -i git commit-tree {} -m "Initial commit" > .git/refs/heads/master
+git checkout -- hello-world
+
+# Git diff coloring with regex
+git diff --color-words=.
+
+# Git stash commands
+# Save to stash
+git stash save -u "MSG"
+# List stash
+git stash list
+# Show diff
+git stash show -p
+# Get entry in working tree (without ID latest by default)
+git stash pop (stash@{ID})
+# Empty/clear stash
+git stash clear
+
+# Add/reset patches (=split commit)
+git add -p
+git reset -p
