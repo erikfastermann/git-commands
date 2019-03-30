@@ -49,3 +49,13 @@ git stash clear
 # Add/reset patches (=split commit)
 git add -p
 git reset -p
+
+# Serve all repos in current folder
+git daemon --base-path=. --export-all --informative-errors --verbose"
+
+# List all files that are tracked in the repository
+git log --format='' --name-only | sort -u
+
+# Get diff of BRANCH REMOTE/BRANCH                      
+f () { local curr_branch=$(git branch | grep -F '*' | cut -d' ' -f2); \
+git diff "$curr_branch" $(git remote | head -n1)/${curr_branch}; }; f
